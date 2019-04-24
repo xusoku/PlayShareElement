@@ -1,0 +1,7 @@
+<resources>
+
+    <array name="video_source">
+        <item>@raw/test_l</item>
+    </array>
+
+</resources>
