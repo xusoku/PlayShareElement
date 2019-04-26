@@ -1,7 +1,7 @@
 package com.test.transitiondemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -15,7 +15,6 @@ public class Main2Activity extends AppCompatActivity {
     View imageView;
     View textView;
     PlayerView playerView;
-    private BasePlayer basePlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +22,10 @@ public class Main2Activity extends AppCompatActivity {
         imageView=findViewById(R.id.small_blue_icon2);
         textView=findViewById(R.id.textview2);
         playerView=findViewById(R.id.video_view1);
-        basePlayer=new BasePlayer();
 
-        playerView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                basePlayer.init(Main2Activity.this,playerView);
-            }
-        },1000);
-
-
+        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer());
+//        MYApp.getInstance().getBasePlayer().setUrl(MYApp.url);
+//        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
         YcShareElement.setEnterTransitions(this,new IShareElements() {
             @Override
             public ShareElementInfo[] getShareElements() {
@@ -50,27 +43,22 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        basePlayer.playPause();
-    }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
-
+//
 //    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if (player != null) {
-//            player.stop(true);
-//            Log.e("player","onStop_state="+player.getPlaybackState());
-//        }
+//    protected void onResume() {
+//        super.onResume();
 //    }
-
+//
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+//
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        basePlayer.onDestroy();
     }
 
 

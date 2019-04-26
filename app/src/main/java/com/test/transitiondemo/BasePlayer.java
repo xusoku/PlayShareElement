@@ -34,69 +34,73 @@ import com.google.android.exoplayer2.upstream.RawResourceDataSource;
 public class BasePlayer {
 
     private ExoPlayer player;
-    private boolean playWhenReady=true;
+    private boolean playWhenReady = false;
     private int currentWindow;
-    private long playbackPosition=0;
+    private long playbackPosition = 0;
+    private MediaSource mediaSource;
 
-    private int[] videoSources;
-    private MediaSource[] mediaSources;
 
     private static final BasePlayer basePlayer = new BasePlayer();
 
-    static BasePlayer getInstance() {
+    public static BasePlayer getInstance() {
         return basePlayer;
     }
 
-    public BasePlayer() {
+    public ExoPlayer getPlayer() {
+        return player;
     }
 
-    public void init(Context context,PlayerView playerView){
+    private BasePlayer() {
+    }
+
+    public void init(Context context) {
         getRawArray(context);
-        createMediaSources(context);
-        initializePlayer(context,playerView);
+        initializePlayer(context);
         setListener();
     }
 
     private void getRawArray(Context context) {
         Resources res = context.getResources();
         final TypedArray sources = res.obtainTypedArray(R.array.video_source);
-        videoSources = new int[sources.length()];
+        int[] videoSources = new int[sources.length()];
         for (int i = 0; i < sources.length(); i++) {
             videoSources[i] = sources.getResourceId(i, -1);
         }
         sources.recycle();
+
+        createMediaSources(context, videoSources);
     }
 
 
-    private void initializePlayer(Context context,PlayerView playerView) {
-        if (player==null){
+    private void initializePlayer(Context context) {
+        if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(
                     new DefaultRenderersFactory(context),
                     new DefaultTrackSelector(), new DefaultLoadControl());
-
-            playerView.setPlayer(player);
-//            SubtitleView subView = playerView.getSubtitleView();
-//            Cue cue=new Cue("test");
-//            ArrayList<Cue> list=new ArrayList<>();
-//            list.add(cue);
-//            subView.setCues(list);
-
-//            playerView.setDefaultArtwork(BitmapFactory.decodeFile("mnt/sdcard/aaa.jpg"));
-//            playerView.setUseArtwork(true);
             player.seekTo(currentWindow, playbackPosition);
 
-//            SeekParameters parameters=new SeekParameters(100,500);
-//            player.setSeekParameters(parameters);
-        }
 //        Uri uri = Uri.parse("http://sl.video.xycdn.n0808.com/r_733d71990c8d2afe7dd85d0cdb18a17331e24796?sign=ae2b1057c051727166a8d28a0d3988b8&t=b97f12bc&xsign=1556099614-ab9e8f98f167a94c35174bda8bddf920");
 //        mediaSources[0]= buildMediaSource(uri);
-        player.prepare(mediaSources[0], false, true);
+        }
 
     }
+    class RenderFa extends DefaultRenderersFactory{
 
+        public RenderFa(Context context) {
+            super(context);
+        }
 
-    private void createMediaSources(Context context) {
-        mediaSources = new MediaSource[videoSources.length];
+        public RenderFa(Context context, int extensionRendererMode) {
+            super(context, extensionRendererMode);
+        }
+
+        public RenderFa(Context context, int extensionRendererMode, long allowedVideoJoiningTimeMs) {
+            super(context, extensionRendererMode, allowedVideoJoiningTimeMs);
+        }
+    }
+
+    private void createMediaSources(Context context, int[] videoSources) {
+        MediaSource[] mediaSources = new MediaSource[videoSources.length];
         for (int i = 0; i < videoSources.length; i++) {
             int videoSource = videoSources[i];
             try {
@@ -105,7 +109,7 @@ public class BasePlayer {
                 rawResourceDataSource.open(dataSpec);
 
                 // The MediaSource represents the media to be played.
-                ExtractorMediaSource.Factory extractorMediaFactory =new ExtractorMediaSource.Factory(new DataSource.Factory() {
+                ExtractorMediaSource.Factory extractorMediaFactory = new ExtractorMediaSource.Factory(new DataSource.Factory() {
                     @Override
                     public DataSource createDataSource() {
                         return rawResourceDataSource;
@@ -118,82 +122,102 @@ public class BasePlayer {
                 e.printStackTrace();
             }
         }
+        mediaSource = mediaSources[0];
     }
+
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory("exoplayer-codelab")).
                 createMediaSource(uri);
     }
 
-    private void setListener(){
-            player.addListener(new Player.DefaultEventListener() {
+    private void setListener() {
+        player.addListener(new Player.DefaultEventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, @Nullable Object manifest, int reason) {
-                Log.e("player","onTimelineChanged");
+                Log.e("player", "onTimelineChanged");
             }
 
             @Override
             public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-                Log.e("player","onTracksChanged");
+                Log.e("player", "onTracksChanged");
             }
 
             @Override
             public void onLoadingChanged(boolean isLoading) {
-                Log.e("player","isLoading="+isLoading);
+                Log.e("player", "isLoading=" + isLoading);
             }
 
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                Log.e("player","playWhenReady="+playWhenReady+"   playbackState="+playbackState);
+                Log.e("player", "playWhenReady=" + playWhenReady + "   playbackState=" + playbackState);
             }
 
             @Override
             public void onRepeatModeChanged(int repeatMode) {
-                Log.e("player","repeatMode="+repeatMode);
+                Log.e("player", "repeatMode=" + repeatMode);
             }
 
             @Override
             public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-                Log.e("player","shuffleModeEnabled="+shuffleModeEnabled);
+                Log.e("player", "shuffleModeEnabled=" + shuffleModeEnabled);
             }
 
             @Override
             public void onPlayerError(ExoPlaybackException error) {
-                Log.e("player","error="+error.getMessage());
+                Log.e("player", "error=" + error.getMessage());
             }
 
             @Override
             public void onPositionDiscontinuity(int reason) {
-                Log.e("player","reason="+reason);
+                Log.e("player", "reason=" + reason);
             }
 
             @Override
             public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-                Log.e("player","playbackParameters="+playbackParameters.toString());
+                Log.e("player", "playbackParameters=" + playbackParameters.toString());
             }
 
             @Override
             public void onSeekProcessed() {
-                Log.e("player","onSeekProcessed="+player.getContentPosition()+"");
+                Log.e("player", "onSeekProcessed=" + player.getContentPosition() + "");
             }
         });
-}
+    }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        if (player != null) {
-//            player.stop(true);
-//            Log.e("player","onStop_state="+player.getPlaybackState());
-//        }
-//    }
+    public void setUrl(String url) {
+        if (player != null) {
+            Uri uri = Uri.parse(url);
+            mediaSource = buildMediaSource(uri);
+        }
+    }
 
-    public void playStart(){
+    public void setPrepare(boolean resetPosition, boolean resetState) {
+        if (player != null) {
+//            player.setPlaybackParameters(new PlaybackParameters(2.0f));//倍数播放
+            player.prepare(mediaSource, resetPosition, resetState);
+        }
+    }
+
+    public void setPlayer(PlayerView playerView) {
+        if (player != null) {
+            playerView.setPlayer(player);
+        }
+    }
+
+    public void seekPlayer(long playbackPosition) {
+        if (player != null) {
+            player.seekTo(currentWindow, playbackPosition);
+        }
+    }
+
+    public void playStart() {
         if (player != null) {
             player.setPlayWhenReady(true);
         }
     }
-    public void playPause(){
+
+    public void playPause() {
         if (player != null) {
             player.setPlayWhenReady(false);
             playbackPosition = player.getCurrentPosition();
@@ -201,7 +225,8 @@ public class BasePlayer {
             playWhenReady = player.getPlayWhenReady();
         }
     }
-    public void playStop(boolean isReset){
+
+    public void playStop(boolean isReset) {
         if (player != null) {
             player.stop(isReset);
             playbackPosition = player.getCurrentPosition();
@@ -216,7 +241,7 @@ public class BasePlayer {
             currentWindow = player.getCurrentWindowIndex();
             playWhenReady = player.getPlayWhenReady();
             player.release();
-            player=null;
+            player = null;
         }
     }
 

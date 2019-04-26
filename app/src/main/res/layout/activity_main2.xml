@@ -38,10 +38,11 @@
             android:layout_height="wrap_content"
             app:show_timeout="1000"
             app:fastforward_increment="5000"
+            app:keep_content_on_player_reset="true"
             app:rewind_increment="5000"
             app:surface_type="texture_view"
-            app:auto_show="true"
-            app:controller_layout_id="@layout/layout_play"/>
+            app:auto_show="true"/>
+            <!--app:controller_layout_id="@layout/layout_play"/>-->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
