@@ -23,7 +23,7 @@ public class Main2Activity extends AppCompatActivity {
         textView=findViewById(R.id.textview2);
         playerView=findViewById(R.id.video_view1);
 
-        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer());
+        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(this));
 //        MYApp.getInstance().getBasePlayer().setUrl(MYApp.url);
 //        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
         YcShareElement.setEnterTransitions(this,new IShareElements() {
@@ -54,11 +54,13 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+//        MYApp.getInstance().getBasePlayer().playStop(false);
     }
 //
     @Override
     protected void onDestroy() {
         super.onDestroy();
+//        MYApp.getInstance().getBasePlayer().onDestroy();
     }
 
 

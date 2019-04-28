@@ -1,12 +1,14 @@
 package com.test.transitiondemo;
 
 import android.content.Intent;
+import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     View imageView;
     View textView;
 
-    private PlayerView playerView;
+    private PlayerViewNew playerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //            StrictMode.setVmPolicy(builder.build());
 //        }
         playerView = findViewById(R.id.video_view);
-        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer());
+        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(this));
         MYApp.getInstance().getBasePlayer().setUrl(MYApp.url);
         MYApp.getInstance().getBasePlayer().setPrepare(true,true);
         YcShareElement.enableContentTransition(getApplication());
@@ -50,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-//                MYApp.getInstance().getBasePlayer().playStart();
                 Intent intent = new Intent(MainActivity.this, Main2Activity.class);
                 Bundle bundle = YcShareElement.buildOptionsBundle(MainActivity.this, new IShareElements() {
                     @Override
@@ -87,6 +87,33 @@ public class MainActivity extends AppCompatActivity {
 //                player.prepare(mediaSources[0], false, true);
             }
         });
+
+//        TextureView surfaceview = (TextureView) playerView.getVideoSurfaceView();
+//        surfaceview.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+//            @Override
+//            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+//                Log.e("player1","width="+width+"  height="+height);
+//
+//            }
+//
+//            @Override
+//            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+//                Log.e("player2","width="+width+"  height="+height);
+//
+//            }
+//
+//            @Override
+//            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//
+//            }
+//        });
+//        playerView.getPlayer().getVideoComponent().setVideoTextureView(surfaceview);
+
     }
 
     @Override
@@ -100,7 +127,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-//        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
+        playerView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                playerView = findViewById(R.id.video_view);
+                playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(MainActivity.this));
+            }
+        },100);
+
     }
 
 
@@ -116,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void doFix(View view) {
         playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+        MYApp.getInstance().getBasePlayer().setVolume(1);
     }
 
     public void doHeight(View view) {
@@ -124,9 +159,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void doWidth(View view) {
         playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
+        MYApp.getInstance().getBasePlayer().setVolume(0);
     }
 
     public void doFill(View view) {
         playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
+    }
+
+    public void doJump(View view) {
+        playerView = findViewById(R.id.video_view);
+        playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(this));
+        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
+        MYApp.getInstance().getBasePlayer().seekPlayer(MYApp.getInstance().getBasePlayer().getPlaybackPosition());
+        MYApp.getInstance().getBasePlayer().playStart();
     }
 }

@@ -45,12 +45,23 @@
                 android:layout_height="wrap_content"
                 android:text="FILL"/>
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <ImageView
             android:id="@+id/small_blue_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher"
             android:transitionName="aff"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="doJump"
+            android:src="@mipmap/ic_launcher"/>
+    </LinearLayout>
 
         <TextView
             android:id="@+id/textview1"
@@ -60,7 +71,7 @@
             android:transitionName="af"
             android:textSize="20sp" />
 
-        <com.google.android.exoplayer2.ui.PlayerView
+        <com.test.transitiondemo.PlayerViewNew
             android:id="@+id/video_view"
             android:transitionName="play"
             android:layout_width="wrap_content"

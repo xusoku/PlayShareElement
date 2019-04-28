@@ -10,10 +10,10 @@ import android.util.Log;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.extractor.mp4.Mp4Extractor;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -26,6 +26,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.upstream.RawResourceDataSource;
+import com.google.android.exoplayer2.video.VideoListener;
 
 /**
  * Created by xushengfu on 2019/4/24.
@@ -33,7 +34,7 @@ import com.google.android.exoplayer2.upstream.RawResourceDataSource;
 
 public class BasePlayer {
 
-    private ExoPlayer player;
+    private SimpleExoPlayer player;
     private boolean playWhenReady = false;
     private int currentWindow;
     private long playbackPosition = 0;
@@ -46,7 +47,10 @@ public class BasePlayer {
         return basePlayer;
     }
 
-    public ExoPlayer getPlayer() {
+    public SimpleExoPlayer getPlayer(Context context) {
+        if(player==null){
+            init(context);
+        }
         return player;
     }
 
@@ -57,6 +61,10 @@ public class BasePlayer {
         getRawArray(context);
         initializePlayer(context);
         setListener();
+    }
+
+    public long getPlaybackPosition() {
+        return playbackPosition;
     }
 
     private void getRawArray(Context context) {
@@ -84,21 +92,6 @@ public class BasePlayer {
         }
 
     }
-    class RenderFa extends DefaultRenderersFactory{
-
-        public RenderFa(Context context) {
-            super(context);
-        }
-
-        public RenderFa(Context context, int extensionRendererMode) {
-            super(context, extensionRendererMode);
-        }
-
-        public RenderFa(Context context, int extensionRendererMode, long allowedVideoJoiningTimeMs) {
-            super(context, extensionRendererMode, allowedVideoJoiningTimeMs);
-        }
-    }
-
     private void createMediaSources(Context context, int[] videoSources) {
         MediaSource[] mediaSources = new MediaSource[videoSources.length];
         for (int i = 0; i < videoSources.length; i++) {
@@ -189,6 +182,16 @@ public class BasePlayer {
         if (player != null) {
             Uri uri = Uri.parse(url);
             mediaSource = buildMediaSource(uri);
+        }
+    }
+    public void setVolume(int i) {
+        if (player != null) {
+          player.setVolume(i);
+        }
+    }
+    public void setRefuse() {
+        if (player != null) {
+         player.blockingSendMessages();
         }
     }
 
