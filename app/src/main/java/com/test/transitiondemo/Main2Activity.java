@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.hw.ycshareelement.YcShareElement;
+import com.hw.ycshareelement.transition.DefaultShareElementTransitionFactory;
 import com.hw.ycshareelement.transition.IShareElements;
 import com.hw.ycshareelement.transition.ShareElementInfo;
 import com.hw.ycshareelement.transition.TextViewStateSaver;
@@ -26,16 +27,16 @@ public class Main2Activity extends AppCompatActivity {
         playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(this));
 //        MYApp.getInstance().getBasePlayer().setUrl(MYApp.url);
 //        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
-        YcShareElement.setEnterTransitions(this,new IShareElements() {
-            @Override
-            public ShareElementInfo[] getShareElements() {
-                return new ShareElementInfo[]{new ShareElementInfo(imageView),
-                        new ShareElementInfo(textView, new TextViewStateSaver()),
-                        new ShareElementInfo(playerView,new PlayStateSaver())};
-            }
-        },true,new PlayShareElementTransitionfactory());
-
-        YcShareElement.startTransition(this);
+//        YcShareElement.setEnterTransitions(this,new IShareElements() {
+//            @Override
+//            public ShareElementInfo[] getShareElements() {
+//                return new ShareElementInfo[]{new ShareElementInfo(imageView),
+//                        new ShareElementInfo(textView, new TextViewStateSaver()),
+//                        new ShareElementInfo(playerView,new PlayStateSaver())};
+//            }
+//        },true,new PlayShareElementTransitionfactory());
+//
+//        YcShareElement.startTransition(this);
     }
 
 

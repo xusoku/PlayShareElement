@@ -3,10 +3,16 @@ package com.test.transitiondemo;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.transition.Transition;
 import android.transition.TransitionValues;
 import android.util.Log;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.ui.PlayerView;
@@ -37,23 +43,43 @@ public class PlayTransition extends Transition {
 
     @Override
     public void captureEndValues(TransitionValues transitionValues) {
-//        ShareElementInfo info = ShareElementInfo.getFromView(transitionValues.view);
-//        if(info != null && info.getViewStateSaver() instanceof PlayStateSaver) {
-//            mToPlaying=((PlayStateSaver)(info.getViewStateSaver())).getIsPlaying(info.isEnter()?info.getFromViewBundle():info.getToViewBundle());
-//            mToPosition=((PlayStateSaver)(info.getViewStateSaver())).getPosition(info.isEnter()?info.getFromViewBundle():info.getToViewBundle());
-//        }
+        ShareElementInfo info = ShareElementInfo.getFromView(transitionValues.view);
+        if(info != null && info.getViewStateSaver() instanceof PlayStateSaver) {
+            mToPlaying=((PlayStateSaver)(info.getViewStateSaver())).getIsPlaying(info.isEnter()?info.getFromViewBundle():info.getToViewBundle());
+            mToPosition=((PlayStateSaver)(info.getViewStateSaver())).getPosition(info.isEnter()?info.getFromViewBundle():info.getToViewBundle());
+        }
     }
 
     @Override
     public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues, TransitionValues endValues) {
 
-        ShareElementInfo info = ShareElementInfo.getFromView(endValues.view);
+        ShareElementInfo info = ShareElementInfo.getFromView(startValues.view);
         if(info != null && info.getViewStateSaver() instanceof PlayStateSaver) {
-            PlayerView view = (PlayerView) endValues.view;
+            PlayerView view = (PlayerView) startValues.view;
 
-            Log.e("player","mFromPlaying="+mFromPlaying+"   mFromPosition="+mFromPosition);
-            Log.e("player","mToPlaying="+mToPlaying+"   mToPosition="+mToPosition);
-            return super.createAnimator(sceneRoot, startValues, endValues);
+            int[] vLocation = new int[2];
+            view.getLocationInWindow(vLocation);
+            int centerX = vLocation[0] + view.getMeasuredWidth() / 2;
+            int centerY = vLocation[1] + view.getMeasuredHeight() / 2;
+
+            int width = view.getMeasuredWidth();
+            int height = view.getMeasuredHeight();
+            int maxRradius = (int) Math.hypot(width, height);
+
+            Log.e("player","centerX="+centerX+"   centerY="+centerY);
+            Log.e("player","maxRradius="+maxRradius);
+            Animator animator1 =ViewAnimationUtils.createCircularReveal(view,0,height,0,maxRradius);
+
+            ValueAnimator vaSY = ObjectAnimator.ofFloat(this, "scaleX", 1f,
+                    1.2f);
+            ValueAnimator vaSY1 = ObjectAnimator.ofFloat(this, "scaleX", 1.2f,1.0f);
+
+            animator1.setInterpolator(new OvershootInterpolator(2));
+            AnimatorSet aa=new AnimatorSet();
+            aa.playSequentially(vaSY,vaSY1);
+
+//            aa.playTogether(animator1);
+            return aa;
         } else {
             return super.createAnimator(sceneRoot, startValues, endValues);
         }
