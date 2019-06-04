@@ -8,8 +8,8 @@ import android.app.Application;
 
 public class MYApp extends Application {
 
-    public static final String url="http://test.cdn.sunmi.com/VIDEO/5cdcd8cf73122.mp4";
-    public static final String url2="http://test.cdn.sunmi.com/VIDEO/5cdcdd7cf133f.mp4";
+    public static final String url2="http://test.cdn.sunmi.com/VIDEO/5cdcd8cf73122.mp4";
+    public static final String url="http://test.cdn.sunmi.com/VIDEO/5cdcdd7cf133f.mp4";
     public static final String url1="https://v.qq.com/txp/iframe/player.html?vid=a0871see02k";
     public static MYApp instance;
 

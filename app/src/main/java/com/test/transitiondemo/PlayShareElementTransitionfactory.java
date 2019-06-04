@@ -14,6 +14,7 @@ import java.util.List;
 public class PlayShareElementTransitionfactory extends DefaultShareElementTransitionFactory {
     @Override
     protected TransitionSet buildShareElementsTransition(List<View> shareViewList) {
+//        TransitionSet transitionSet = new TransitionSet();
         TransitionSet transitionSet =  super.buildShareElementsTransition(shareViewList);
         transitionSet.addTransition(new PlayTransition());
         return transitionSet;

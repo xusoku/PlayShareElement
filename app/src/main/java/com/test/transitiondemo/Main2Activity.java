@@ -27,16 +27,16 @@ public class Main2Activity extends AppCompatActivity {
         playerView.setPlayer(MYApp.getInstance().getBasePlayer().getPlayer(this));
 //        MYApp.getInstance().getBasePlayer().setUrl(MYApp.url);
 //        MYApp.getInstance().getBasePlayer().setPrepare(false,false);
-//        YcShareElement.setEnterTransitions(this,new IShareElements() {
-//            @Override
-//            public ShareElementInfo[] getShareElements() {
-//                return new ShareElementInfo[]{new ShareElementInfo(imageView),
-//                        new ShareElementInfo(textView, new TextViewStateSaver()),
-//                        new ShareElementInfo(playerView,new PlayStateSaver())};
-//            }
-//        },true,new PlayShareElementTransitionfactory());
-//
-//        YcShareElement.startTransition(this);
+        YcShareElement.setEnterTransitions(this,new IShareElements() {
+            @Override
+            public ShareElementInfo[] getShareElements() {
+                return new ShareElementInfo[]{new ShareElementInfo(imageView),
+                        new ShareElementInfo(textView, new TextViewStateSaver()),
+                        new ShareElementInfo(playerView,new PlayStateSaver())};
+            }
+        },true,new PlayShareElementTransitionfactory());
+
+        YcShareElement.startTransition(this);
     }
 
 

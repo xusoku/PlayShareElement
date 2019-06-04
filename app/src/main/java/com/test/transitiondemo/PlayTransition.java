@@ -70,13 +70,13 @@ public class PlayTransition extends Transition {
             Log.e("player","maxRradius="+maxRradius);
             Animator animator1 =ViewAnimationUtils.createCircularReveal(view,0,height,0,maxRradius);
 
-            ValueAnimator vaSY = ObjectAnimator.ofFloat(this, "scaleX", 1f,
-                    1.2f);
-            ValueAnimator vaSY1 = ObjectAnimator.ofFloat(this, "scaleX", 1.2f,1.0f);
+            ValueAnimator vaSY = ObjectAnimator.ofFloat(view, "scaleX", 0.8f,
+                    1.0f);
+//            ValueAnimator vaSY1 = ObjectAnimator.ofFloat(view, "scaleX", 1.2f,1.0f);
 
-            animator1.setInterpolator(new OvershootInterpolator(2));
+            vaSY.setInterpolator(new OvershootInterpolator(10));
             AnimatorSet aa=new AnimatorSet();
-            aa.playSequentially(vaSY,vaSY1);
+            aa.playSequentially(vaSY);
 
 //            aa.playTogether(animator1);
             return aa;
