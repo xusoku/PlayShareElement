@@ -38,7 +38,7 @@ public class AutoPollAdapter extends RecyclerView.Adapter<AutoPollAdapter.BaseVi
 
     @Override
     public int getItemCount() {
-        return Integer.MAX_VALUE;
+        return mData.size();
     }
 
     class BaseViewHolder extends RecyclerView.ViewHolder {

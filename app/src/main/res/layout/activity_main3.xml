@@ -30,7 +30,11 @@
             <com.test.transitiondemo.AutoPollRecyclerView
                 android:id="@+id/autoPoll"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"></com.test.transitiondemo.AutoPollRecyclerView>
+                android:layout_height="wrap_content"></com.test.transitiondemo.AutoPollRecyclerView>
+            <com.test.transitiondemo.AutoPollRecyclerView
+                android:id="@+id/autoPoll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></com.test.transitiondemo.AutoPollRecyclerView>
 
         </LinearLayout>
     </ScrollView>

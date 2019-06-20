@@ -3,6 +3,7 @@ package com.test.transitiondemo;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.transition.ChangeBounds;
 import android.transition.ChangeTransform;
 import android.transition.Fade;
@@ -14,10 +15,14 @@ import android.view.Window;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main4Activity extends Activity {
 
 
     ImageView image_subject1;
+    int x=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -45,6 +50,23 @@ public class Main4Activity extends Activity {
                 finishAfterTransition();
             }
         });
+
+
+        x=getIntent().getIntExtra("x",0);
+        Log.e("aaa",x+"===");
+        AutoPollRecyclerView mRecyclerView1 = (AutoPollRecyclerView) findViewById(R.id.autoPoll2);
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 5; ) {
+            list.add(" Item: " + ++i);
+        }
+        AutoPollAdapter adapter = new AutoPollAdapter(this, list);
+
+        LooperLayoutManager layoutManager = new LooperLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+        layoutManager.setLooperEnable(true);
+        mRecyclerView1.setLayoutManager(layoutManager);
+        mRecyclerView1.setAdapter(adapter);
+        mRecyclerView1.start();
+        mRecyclerView1.scrollBy(x);
     }
 
 
