@@ -62,6 +62,8 @@
             app:surface_type="texture_view"
             app:keep_content_on_player_reset="true"
             app:auto_show="true"/>
+        <!--app:surface_type="texture_view"-->
+        <!--app:surface_type="surface_view"-->
         <ImageView
             android:id="@+id/small_blue_icon"
             android:layout_width="wrap_content"

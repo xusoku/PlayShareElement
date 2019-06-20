@@ -82,7 +82,7 @@ public class BasePlayer {
 
     private void initializePlayer(Context context) {
         if (player == null) {
-            player = ExoPlayerFactory.newSimpleInstance(
+            player = ExoPlayerFactory.newSimpleInstance(context,
                     new DefaultRenderersFactory(context),
                     new DefaultTrackSelector(), new DefaultLoadControl());
             player.seekTo(currentWindow, playbackPosition);

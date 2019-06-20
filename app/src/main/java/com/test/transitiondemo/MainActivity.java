@@ -104,14 +104,19 @@ public class MainActivity extends AppCompatActivity {
 //
 //            @Override
 //            public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+//                Log.e("player3","onSurfaceTextureDestroyed");
+//
 //                return false;
 //            }
 //
 //            @Override
 //            public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//                Log.e("player4","onSurfaceTextureUpdated");
 //
 //            }
 //        });
+//        TextureView.SurfaceTextureListener listener = surfaceview.getSurfaceTextureListener();
+//
 //        playerView.getPlayer().getVideoComponent().setVideoTextureView(surfaceview);
 
     }
