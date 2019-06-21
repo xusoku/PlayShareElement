@@ -252,7 +252,7 @@ public final class MediaCodecInfo {
     int profile = codecProfileAndLevel.first;
     int level = codecProfileAndLevel.second;
     if (AmazonQuirks.shouldSkipProfileLevelCheck() || // AMZN_CHANGE_ONELINE
-            (!isVideo && profile != CodecProfileLevel.AACObjectXHE)) {
+            (!isVideo && profile != CodecProfileLevelNew.AACObjectXHE)) {
       // Some devices/builds under-report audio capabilities, so assume support except for xHE-AAC
       // which is not widely supported. See https://github.com/google/ExoPlayer/issues/5145.
       return true;
@@ -282,7 +282,7 @@ public final class MediaCodecInfo {
     } else {
       Pair<Integer, Integer> codecProfileLevel =
           MediaCodecUtil.getCodecProfileAndLevel(format.codecs);
-      return codecProfileLevel != null && codecProfileLevel.first == CodecProfileLevel.AACObjectXHE;
+      return codecProfileLevel != null && codecProfileLevel.first == CodecProfileLevelNew.AACObjectXHE;
     }
   }
 
@@ -323,8 +323,8 @@ public final class MediaCodecInfo {
       }
       int oldProfile = oldCodecProfileLevel.first;
       int newProfile = newCodecProfileLevel.first;
-      return oldProfile == CodecProfileLevel.AACObjectXHE
-          && newProfile == CodecProfileLevel.AACObjectXHE;
+      return oldProfile == CodecProfileLevelNew.AACObjectXHE
+          && newProfile == CodecProfileLevelNew.AACObjectXHE;
     }
   }
 

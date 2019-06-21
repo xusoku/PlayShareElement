@@ -24,6 +24,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.offline.DownloadManager.TaskState;
+import com.test.transitiondemo.R;
 
 /** Helper for creating download notifications. */
 public final class DownloadNotificationUtil {

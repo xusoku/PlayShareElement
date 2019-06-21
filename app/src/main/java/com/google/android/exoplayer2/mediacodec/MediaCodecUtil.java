@@ -795,7 +795,7 @@ public final class MediaCodecUtil {
     MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.put(23, CodecProfileLevel.AACObjectLD);
     MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.put(29, CodecProfileLevel.AACObjectHE_PS);
     MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.put(39, CodecProfileLevel.AACObjectELD);
-    MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.put(42, CodecProfileLevel.AACObjectXHE);
+    MP4A_AUDIO_OBJECT_TYPE_TO_PROFILE.put(42, CodecProfileLevelNew.AACObjectXHE);
   }
 
 }

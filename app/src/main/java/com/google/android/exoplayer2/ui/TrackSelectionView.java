@@ -35,6 +35,8 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector.SelectionOverride;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.util.Assertions;
+import com.test.transitiondemo.R;
+
 import java.util.Arrays;
 
 /** A view for making track selections. */

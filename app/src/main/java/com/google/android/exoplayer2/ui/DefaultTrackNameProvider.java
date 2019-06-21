@@ -22,6 +22,8 @@ import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
+import com.test.transitiondemo.R;
+
 import java.util.Locale;
 
 /** A default {@link TrackNameProvider}. */

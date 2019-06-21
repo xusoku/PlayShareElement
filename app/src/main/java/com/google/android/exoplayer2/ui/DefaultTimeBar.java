@@ -39,6 +39,8 @@ import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.util.Assertions;
 import com.google.android.exoplayer2.util.Util;
+import com.test.transitiondemo.R;
+
 import java.util.Formatter;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArraySet;
