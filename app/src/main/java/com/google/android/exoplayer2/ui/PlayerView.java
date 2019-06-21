@@ -526,9 +526,9 @@ public class PlayerView extends FrameLayout implements AdsLoader.AdViewProvider 
     Assertions.checkState(Looper.myLooper() == Looper.getMainLooper());
     Assertions.checkArgument(
         player == null || player.getApplicationLooper() == Looper.getMainLooper());
-    if (this.player == player) {
-      return;
-    }
+//    if (this.player == player) {
+//      return;
+//    }
     if (this.player != null) {
       this.player.removeListener(componentListener);
       VideoComponent oldVideoComponent = this.player.getVideoComponent();

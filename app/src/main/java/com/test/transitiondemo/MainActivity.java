@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     View imageView;
     View textView;
 
-    private PlayerViewNew playerView;
+    private PlayerView playerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
